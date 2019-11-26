@@ -1,0 +1,67 @@
+
+var myObject = {};
+myObject.create = function(prototypeList){
+
+  createdobject = Object.create(this);
+  createdobject.prototypes = [];
+  if(Array.isArray(prototypeList)){
+    prototypeList.forEach(function(current, index, prototypeList){
+      createdobject.prototypes.push(current);
+      console.log("pushed");
+    })
+  }
+
+  
+  
+  //inherited.foreach(element => console.log(typeof element));
+  
+  y = 0;
+  
+
+  return createdobject;
+}
+
+myObject.call = function(name, parameters){
+    for(var prop in this){
+        if(prop == name){
+          this[name](parameters)
+        }
+    }
+  }
+var obj0 = myObject.create(null);
+obj0.plopp = function(pm){
+  console.log(pm);
+}
+var obj1 = myObject.create([obj0]);
+obj1.name = "obj1";
+obj1.shoot = function(blerp){
+  console.log("shot "+blerp)
+}
+obj1.floop = function(thing){
+  console.log("flooped: "+thing)
+}
+obj1.call("shoot","52");
+obj1.call("floop", "sorps")
+var objz = myObject.create(null);
+var obj2 = myObject.create([objz,obj1]);
+console.log(obj2);
+
+/*
+var obj0 = myObject.create("stuff");
+var obj0 = myObject.create(null); obj0.func = function(arg) { return "func0: " + arg;};
+
+var obj1 = myObject.create([obj0]);
+var obj2 = myObject.create([]);
+obj2.func = function(arg) {
+    return "func2: " + arg; }; 
+var obj3 = myObject.create([obj1, obj2]); 
+var result = obj3.call("func", ["hello"]); 
+console.log("should print ’func0: hello’ ->", result);
+
+where’result’is assigned’func0: hello.
+Another example of method lookup testing that the call method searchesthrough all properties:
+
+obj0 = myObject.create(null); obj0.func = function(arg) { return "func0: " + arg; }; obj1 = myObject.create([obj0]); obj2 = myObject.create([]);
+obj3 = myObject.create([obj2, obj1]);
+result = obj3.call("func", ["hello"]);
+console.log("should print ’func0: hello’ ->", result);*/
