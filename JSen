@@ -1,15 +1,13 @@
-var myObject = {};
-myObject.create = function(prototypeList){
+/*var myObject = {};
+myObject.create = function (prototypeList) {
 
     createdobject = Object.create(this);
     createdobject.prototypes = [];
-    if(Array.isArray(prototypeList)){
-        prototypeList.forEach(function(current, index, prototypeList){
+    if (Array.isArray(prototypeList)) {
+        prototypeList.forEach(function (current, index, prototypeList) {
             createdobject.prototypes.push(current);
         })
     }
-
-
 
 
     y = 0;
@@ -18,15 +16,15 @@ myObject.create = function(prototypeList){
     return createdobject;
 }
 
-myObject.call = function(name, parameters){
-    for(var prop in this){
-        if(prop == name){
+myObject.call = function (name, parameters) {
+    for (var prop in this) {
+        if (prop == name) {
             return this[name](parameters)
         }
     }
-    for(var x of this.prototypes){
-        var bler = x.call(name,parameters);
-        if(bler != null){
+    for (var x of this.prototypes) {
+        var bler = x.call(name, parameters);
+        if (bler != null) {
             return bler;
         }
     }
@@ -34,14 +32,18 @@ myObject.call = function(name, parameters){
 }
 
 
-var obj0 = myObject.create(null); obj0.func = function(arg) { return "func0: " + arg;};
+var obj0 = myObject.create(null);
+obj0.func = function (arg) {
+    return "func0: " + arg;
+};
 obj0.name = "obj0"
 var obj1 = myObject.create([obj0]);
 obj1.name = "obj1"
 var obj2 = myObject.create([]);
 obj2.name = "obj2"
-obj2.func = function(arg) {
-    return "func2: " + arg; };
+obj2.func = function (arg) {
+    return "func2: " + arg;
+};
 var obj3 = myObject.create([obj1, obj2]);
 obj1.name = "obj3"
 var result = obj3.call("func", ["hello"]);
@@ -49,9 +51,81 @@ console.log("should print ’func0: hello’ ->", result);
 
 obj0 = myObject.create(null);
 obj0.name = "obj0"
-obj0.func = function(arg) { return "func0: " + arg; };
+obj0.func = function (arg) {
+    return "func0: " + arg;
+};
 obj1 = myObject.create([obj0]);
 obj2 = myObject.create([]);
 obj3 = myObject.create([obj2, obj1]);
 result = obj3.call("func", ["hello"]);
 console.log("should print ’func0: hello’ ->", result);
+*/
+
+
+var createClass = function (className, superClassList) {
+    if (Array.isArray(superClassList) || superClassList == null) {
+
+        var createdObject = {
+            name: className,
+            classList: superClassList,
+            call: function (name, parameters) {
+                for (var prop in this) {
+                    if (prop == name){
+                        return this[name](parameters)
+                    }
+                }
+                if (this.classList != null && Array.isArray(this.classList)) {
+                    for (var x of this.classList) {
+                        var bler = x.call(name, parameters);
+                        if (bler != null) {
+                            return bler;
+                        }
+                    }
+                }
+            }
+        }
+        createdObject.new = function () {
+            return Object.create(this);
+        }
+
+    } else {
+        console.log("nope")
+    }
+
+    return createdObject;
+}
+//class tests below
+var class0 = createClass("Class0", null);
+class0.func = function (arg) {
+    return "func0: " + arg;
+};
+var class1 = createClass("Class1", [class0]);
+var class2 = createClass("Class2", []);
+class2.func = function (arg) {
+    return "func2: " + arg;
+};
+var class3 = createClass("Class3", [class1, class2]);
+var obj3 = class3.new();
+var result = obj3.call("func", ["hello"]);
+//console.log(class3)
+console.log("1: " + result)
+//where ’result’is assigned’func0: hello’. Another example of method lookuptesting:
+class0 = createClass("Class0", null);
+class0.func = function (arg) {
+    return "func0: " + arg;
+};
+class1 = createClass("Class1", [class0]);
+class2 = createClass("Class2", []);
+class3 = createClass("Class3", [class2, class1]);
+obj3 = class3.new();
+result = obj3.call("func", ["hello"]);
+console.log("2: " + result)
+//where’result’is assigned’func0: hello’. Another example of method lookup testing that the method will be foundin the object’s own class:
+class0 = createClass("Class0", null);
+class0.func = function (arg) {
+    return "func0: " + arg;
+};
+var obj0 = class0.new();
+result = obj0.call("func", ["hello"]);
+console.log("3: " + result)
+//where’result’is assigned’func0: hello
