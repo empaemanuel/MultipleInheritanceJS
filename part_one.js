@@ -1,3 +1,5 @@
+
+//Grupp 41, Mohammed Hussein & Emil Madrell
 let myObject = {
     create: function (prototypeList) {
         let newObj = Object.create(this);

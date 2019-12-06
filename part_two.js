@@ -1,3 +1,4 @@
+//Grupp 41, Mohammed Hussein & Emil Madrell
 function createClass(className, superClassList) {
     return myClass = {
         className,
