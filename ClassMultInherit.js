@@ -37,6 +37,7 @@ function createClass(className, superClassList) {
             if (!addedClass.hasClass(this) && this !== addedClass) {
                 if (this.hasClass(addedClass)){
                     console.log("Class already in superclass list. No action taken");
+                    return;
                 }
                 if (this.superClassList === null) {
                     this.superClassList = [addedClass];
