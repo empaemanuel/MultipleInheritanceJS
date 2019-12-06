@@ -21,7 +21,6 @@ function createClass(className, superClassList) {
 
         addSuperClass: function (superClass) {
             if (superClass.hasSuperClass(this) || superClass === this) {
-                //console.log("Cyclical inheritance");
                throw new Error("Cyclical inheritance");
             } else {
                 if (this.superClassList == null) {

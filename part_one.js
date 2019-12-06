@@ -17,7 +17,6 @@ let myObject = {
 
     addPrototype: function (prototype) {
         if (prototype.hasPrototype(this) || this == prototype) {
-            //console.log("Cyclical inheritance");
             throw new Error("Cyclical inheritance");
         } else {
             if (this.prototypeList === null) {
