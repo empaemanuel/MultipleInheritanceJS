@@ -85,6 +85,9 @@ var createClass = function (className, superClassList) {
             },
 
             hasClass: function (soughtClass) {
+                if (soughtClass == this){
+                    return true;
+                }
                 if (this.classList === null)
                     return false;
                 for (let inheritedClass of this.classList) {
@@ -97,14 +100,23 @@ var createClass = function (className, superClassList) {
             },
 
             addSuperClass: function (addedClass) {
-                if(!this.hasClass){
-                    superClassList.push(addedClass);
+                if (addedClass === null) {
+                    console.log("Added class is null")
+                    return;
+                }
+                if (!this.hasClass(addedClass) && !addedClass.hasClass(this)) {
+                    if (this.classList === null) {
+                        this.classList = [];
+                        this.classList.push(addedClass);
+                        return;
+                    }
+                    this.classList.push(addedClass);
+                    return;
                 } else {
                     console.log("Error: Cyclical inheritance")
                 }
 
             }
-
 
         }
         createdObject.new = function () {
@@ -117,7 +129,6 @@ var createClass = function (className, superClassList) {
 
     return createdObject;
 }
-
 //class tests below
 var class0 = createClass("Class0", null);
 class0.func = function (arg) {
